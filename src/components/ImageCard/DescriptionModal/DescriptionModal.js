@@ -9,13 +9,14 @@ import {
   ModalCloseButton,
   Button,
   useDisclosure,
+  Image,
 } from '@chakra-ui/react'
 import { useContext } from 'react'
 import { ImageContext } from '../ImageCard'
 
 export const DescriptionModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const { title, explanation } = useContext(ImageContext)
+  const { title, url, explanation } = useContext(ImageContext)
 
   return (
     <>
@@ -28,6 +29,7 @@ export const DescriptionModal = () => {
           <ModalHeader>{title}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
+            <Image src={url} alt={title} mb={3}/>
             <p>{explanation}</p>
           </ModalBody>
           <ModalFooter>
