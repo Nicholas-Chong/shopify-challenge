@@ -23,7 +23,7 @@ export const DescriptionModal = () => {
       <Box as='button' fontSize='small' onClick={onOpen} display='block'>
         Show Description
       </Box>
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={onClose} size='xl'>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>{title}</ModalHeader>
