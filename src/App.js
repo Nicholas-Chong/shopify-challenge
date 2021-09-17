@@ -1,42 +1,27 @@
-import React from 'react';
-import {
-  ChakraProvider,
-  Box,
-  Text,
-  Link,
-  VStack,
-  Code,
-  Grid,
-  theme,
-} from '@chakra-ui/react';
-import { ColorModeSwitcher } from './ColorModeSwitcher';
-import { Logo } from './Logo';
+import React from 'react'
+import { Heading, ChakraProvider, SimpleGrid, theme } from '@chakra-ui/react'
+import { ColorModeSwitcher } from './ColorModeSwitcher'
+import { AppContainer } from './components/Background'
+import { ImageCard } from './components/ImageCard'
+import { demo } from './demo'
 
 function App() {
   return (
     <ChakraProvider theme={theme}>
-      <Box textAlign="center" fontSize="xl">
-        <Grid minH="100vh" p={3}>
-          <ColorModeSwitcher justifySelf="flex-end" />
-          <VStack spacing={8}>
-            <Logo h="40vmin" pointerEvents="none" />
-            <Text>
-              Edit <Code fontSize="xl">src/App.js</Code> and save to reload.
-            </Text>
-            <Link
-              color="teal.500"
-              href="https://chakra-ui.com"
-              fontSize="2xl"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learn Chakra
-            </Link>
-          </VStack>
-        </Grid>
-      </Box>
+      <AppContainer>
+        <Heading mb={4}>ShopiSpace</Heading>
+        <SimpleGrid columns={[1, 2, 3, 4]} spacing={10}>
+          {demo.map(element => {
+            if (element.media_type === "image")
+              return <ImageCard image={element} />
+            else
+              return null
+            })
+          }
+        </SimpleGrid>
+      </AppContainer>
     </ChakraProvider>
-  );
+  )
 }
 
-export default App;
+export default App
