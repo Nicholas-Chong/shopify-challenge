@@ -1,13 +1,15 @@
-import styled from 'styled-components'
 import { Box } from '@chakra-ui/layout'
 import { IconContext } from 'react-icons'
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
+import { ImageContext } from '../ImageCard'
 
 export const LikeButton = () => {
   const [isLiked, setIsLiked] = useState(false)
+  const [imageTitle] = useState(useContext(ImageContext).title)
 
   const handleClick = () => {
+    console.log(imageTitle)
     setIsLiked(!isLiked)
   }
 
