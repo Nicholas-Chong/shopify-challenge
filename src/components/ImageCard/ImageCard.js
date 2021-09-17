@@ -2,7 +2,7 @@ import { Box, Image } from '@chakra-ui/react'
 import { DescriptionModal } from './DescriptionModal'
 import { LikeButton } from './LikeButton'
 
-export const ImageCard = (props) => {
+export const ImageCard = ({ image }) => {
   return (
     <Box
       bg='white'
@@ -11,7 +11,7 @@ export const ImageCard = (props) => {
       borderRadius='lg'
       overflow='hidden'
     >
-      <Image src={props.image.url} alt={props.image.title} />
+      <Image src={image.url} alt={image.title} />
       <Box p='3'>
         <Box
           mt='1'
@@ -20,14 +20,11 @@ export const ImageCard = (props) => {
           lineHeight='tight'
           isTruncated
         >
-          {props.image.title}
+          {image.title}
         </Box>
-        <Box>{props.image.date}</Box>
+        <Box>{image.date}</Box>
         <LikeButton />
-        <DescriptionModal
-          title={props.image.title}
-          description={props.image.explanation}
-        />
+        <DescriptionModal title={image.title} description={image.explanation} />
       </Box>
     </Box>
   )

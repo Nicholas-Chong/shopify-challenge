@@ -11,7 +11,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react'
 
-export const DescriptionModal = (props) => {
+export const DescriptionModal = ({ title, description }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   return (
     <>
@@ -21,13 +21,13 @@ export const DescriptionModal = (props) => {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>{props.title}</ModalHeader>
+          <ModalHeader>{title}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <p>{props.description}</p>
+            <p>{description}</p>
           </ModalBody>
           <ModalFooter>
-            <Button colorScheme='green' mr={3} onClick={onClose} alt="close">
+            <Button colorScheme='green' mr={3} onClick={onClose} alt='close'>
               Close
             </Button>
           </ModalFooter>
