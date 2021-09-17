@@ -17,20 +17,12 @@ export const ImageCard = ({ image }) => {
       >
         <Image src={image.url} alt={image.title} />
         <Box p='3'>
-          <Box
-            mt='1'
-            fontWeight='semibold'
-            as='h4'
-            lineHeight='tight'
-          >
+          <Box mt='1' fontWeight='semibold' as='h4' lineHeight='tight'>
             {image.title}
           </Box>
           <Box>{image.date}</Box>
           <LikeButton />
-          <DescriptionModal
-            title={image.title}
-            description={image.explanation}
-          />
+          <DescriptionModal />
         </Box>
       </Box>
     </ImageContext.Provider>

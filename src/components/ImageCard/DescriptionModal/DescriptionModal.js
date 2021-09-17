@@ -10,9 +10,13 @@ import {
   Button,
   useDisclosure,
 } from '@chakra-ui/react'
+import { useContext } from 'react'
+import { ImageContext } from '../ImageCard'
 
-export const DescriptionModal = ({ title, description }) => {
+export const DescriptionModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const { title, explanation } = useContext(ImageContext)
+
   return (
     <>
       <Box as='button' fontSize='small' onClick={onOpen} display='block'>
@@ -24,7 +28,7 @@ export const DescriptionModal = ({ title, description }) => {
           <ModalHeader>{title}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <p>{description}</p>
+            <p>{explanation}</p>
           </ModalBody>
           <ModalFooter>
             <Button colorScheme='green' mr={3} onClick={onClose} alt='close'>
