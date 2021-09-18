@@ -5,8 +5,7 @@ export const openDb = () => {
     openRequest.onupgradeneeded = () => {
       const db = openRequest.result
       if (!db.objectStoreNames.contains('likedImages')) {
-        const likedImages = db.createObjectStore('likedImages', {keyPath: 'title'})
-        likedImages.createIndex('imageTitle', 'title', { unique: true })
+        db.createObjectStore('likedImages', {keyPath: 'title'})
       }
     }
 
