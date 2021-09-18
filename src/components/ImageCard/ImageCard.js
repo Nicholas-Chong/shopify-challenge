@@ -27,6 +27,7 @@ export const ImageCard = ({ image }) => {
         borderRadius='lg'
         overflow='hidden'
         display={showOnlyLiked ? (isLiked ? 'block' : 'none') : 'block'}
+        boxShadow='0 3px 10px rgb(0 0 0 / 0.2)'
       >
         <Image src={image.url} alt={image.title} />
         <Box p='3'>
