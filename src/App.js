@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, createContext } from 'react'
 import { Heading, ChakraProvider, SimpleGrid, theme } from '@chakra-ui/react'
 import { ColorModeSwitcher } from './ColorModeSwitcher'
 import { AppContainer } from './components/Background'
@@ -6,6 +6,8 @@ import { ImageCard } from './components/ImageCard'
 import { LoadingSpinner } from './components/LoadingSpinner'
 import { openDb } from './utilities/index-db'
 import { ShowLikedSwitch } from './components/ShowLikedSwitch'
+
+export const AppContext = createContext()
 
 function App() {
   const [imagesLoaded, setImagesLoaded] = useState(false)
@@ -32,20 +34,29 @@ function App() {
 
   return (
     <ChakraProvider theme={theme}>
-      <AppContainer value={{db: indexDb, showOnlyLiked: showOnlyLiked}}>
-        <Heading mb={4}>ShopiSpace</Heading>
-        {!imagesLoaded && <LoadingSpinner />}
-        {imagesLoaded && (
-          <SimpleGrid columns={[1, 2, 3, 4]} spacing={10}>
-            {imagesData.map((element) => {
-              if (element.media_type === 'image')
-                return <ImageCard image={element} />
-              else return null
-            })}
-          </SimpleGrid>
-        )}
-        <ShowLikedSwitch onChange={setShowOnlyLiked}/>
-      </AppContainer>
+      <AppContext.Provider
+        value={{
+          db: indexDb,
+          showOnlyLiked: showOnlyLiked,
+          setShowOnlyLiked: setShowOnlyLiked,
+        }}
+      >
+        <AppContainer>
+          <Heading mb={4}>ShopiSpace</Heading>
+          {showOnlyLiked && <p>show only liked</p>}
+          {!imagesLoaded && <LoadingSpinner />}
+          {imagesLoaded && (
+            <SimpleGrid columns={[1, 2, 3, 4]} spacing={10}>
+              {imagesData.map((element) => {
+                if (element.media_type === 'image')
+                  return <ImageCard image={element} />
+                else return null
+              })}
+            </SimpleGrid>
+          )}
+          <ShowLikedSwitch />
+        </AppContainer>
+      </AppContext.Provider>
     </ChakraProvider>
   )
 }
