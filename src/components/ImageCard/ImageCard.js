@@ -2,7 +2,7 @@ import { Box, Image } from '@chakra-ui/react'
 import { createContext, useContext, useState, useEffect } from 'react'
 import { DescriptionModal } from './DescriptionModal'
 import { LikeButton } from './LikeButton'
-import App, { AppContext } from '../../App'
+import { AppContext } from '../../App'
 import { searchForImage } from '../../utilities/index-db'
 
 export const ImageContext = createContext()
