@@ -1,8 +1,10 @@
 import { Box, Switch } from '@chakra-ui/react'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
+import { AppContext } from '../../App'
 
-export const ShowLikedSwitch = ({ onChange }) => {
+export const ShowLikedSwitch = () => {
   const [isChecked, setIsChecked] = useState(false)
+  const { setShowOnlyLiked } = useContext(AppContext)
 
   return (
     <Box position='fixed' width='100vw' bottom='0' right='0' padding='2em'>
@@ -22,7 +24,7 @@ export const ShowLikedSwitch = ({ onChange }) => {
             size='md'
             isChecked={isChecked}
             onChange={() => {
-              onChange(!isChecked)
+              setShowOnlyLiked(!isChecked)
               setIsChecked(!isChecked)
             }}
           />
