@@ -1,28 +1,28 @@
 export const openDb = () => {
-  let db = null
-  const openRequest = indexedDB.open('shopispace', 2)
+  return new Promise((resolve, reject) => {
+    const openRequest = indexedDB.open('shopispace', 2)
 
-  openRequest.onupgradeneeded = () => {
-    db = openRequest.result
-    if (!db.objectStoreNames.contains('likedImages')) {
-      const likedImages = db.createObjectStore('likedImages', {
-        autoIncrement: true,
-      })
-      likedImages.createIndex('imageTitle', 'imageTitle')
+    openRequest.onupgradeneeded = () => {
+      const db = openRequest.result
+      if (!db.objectStoreNames.contains('likedImages')) {
+        const likedImages = db.createObjectStore('likedImages', {keyPath: 'title'})
+        likedImages.createIndex('imageTitle', 'title', { unique: true })
+      }
     }
-  }
 
-  return db
+    openRequest.onsuccess = () => resolve(openRequest.result)
+    openRequest.onerror = () => reject(openRequest.error)
+  })
 }
 
-export const addLikedImage = (db, imageTitle) => {
+export const addLikedImage = (db, image) => {
   const transaction = db.transaction('likedImages', 'readwrite')
   const likedImages = transaction.objectStore('likedImages')
 
-  const request = likedImages.add({ imageTitle: imageTitle })
+  const request = likedImages.add(image)
 
   request.onsuccess = () => {
-    console.log(`Added "${imageTitle}" to likedImages`, request.result)
+    console.log(`Added "${image.title}" to likedImages`, request.result)
   }
 
   request.onerror = () => {

@@ -3,13 +3,17 @@ import { IconContext } from 'react-icons'
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
 import { useContext, useState } from 'react'
 import { ImageContext } from '../ImageCard'
+import { AppContext } from '../../Background'
+import { addLikedImage } from '../../../utilities/index-db'
 
 export const LikeButton = () => {
   const [isLiked, setIsLiked] = useState(false)
-  const [imageTitle] = useState(useContext(ImageContext).title)
+  const [image] = useState(useContext(ImageContext))
+  const [indexDb] = useState(useContext(AppContext))
 
   const handleClick = () => {
-    console.log(imageTitle)
+    console.log(image.title, indexDb)
+    addLikedImage(indexDb, image)
     setIsLiked(!isLiked)
   }
 
