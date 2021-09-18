@@ -4,36 +4,45 @@ import { ColorModeSwitcher } from './ColorModeSwitcher'
 import { AppContainer } from './components/Background'
 import { ImageCard } from './components/ImageCard'
 import { LoadingSpinner } from './components/LoadingSpinner'
-import { openDb, addLikedImage, searchForImage } from './utilities/index-db'
+import { openDb } from './utilities/index-db'
 
 function App() {
   const [imagesLoaded, setImagesLoaded] = useState(false)
   const [imagesData, setImagesData] = useState([])
-  const [indexDb] = useState(openDb())
+  const [indexDb, setIndexDb] = useState(null)
 
-  useEffect(async () => {
-    let tmp = null
+  useEffect(() => {
+    const runAsyncFunctions = async () => {
+      const db = await openDb()
+      setIndexDb(db)
 
-    let startDate = new Date()
-    startDate.setMonth(startDate.getMonth() - 3)
-    startDate = startDate.toLocaleDateString('fr-CA')
+      console.log(indexDb)
 
-    await fetch(
-      `https://api.nasa.gov/planetary/apod?start_date=${startDate}&api_key=fusMDa3hRjdVjwuaweS6gsIjVDcmN7cmjsaj7nnX`
-    )
-      .then((response) => response.json())
-      .then((data) => (tmp = data))
+      let tmp = null
 
-    setImagesData(tmp)
-    setImagesLoaded(true)
-  })
+      let startDate = new Date()
+      startDate.setMonth(startDate.getMonth() - 3)
+      startDate = startDate.toLocaleDateString('fr-CA')
+
+      await fetch(
+        `https://api.nasa.gov/planetary/apod?start_date=${startDate}&api_key=fusMDa3hRjdVjwuaweS6gsIjVDcmN7cmjsaj7nnX`
+      )
+        .then((response) => response.json())
+        .then((data) => (tmp = data))
+
+      setImagesData(tmp)
+      setImagesLoaded(true)
+    }
+
+    runAsyncFunctions()
+  }, [])
 
   return (
     <ChakraProvider theme={theme}>
-      <AppContainer>
+      <AppContainer db={indexDb}>
         <Heading mb={4}>ShopiSpace</Heading>
-        {!imagesLoaded && <LoadingSpinner/> }
-        {imagesLoaded && 
+        {!imagesLoaded && <LoadingSpinner />}
+        {imagesLoaded && (
           <SimpleGrid columns={[1, 2, 3, 4]} spacing={10}>
             {imagesData.map((element) => {
               if (element.media_type === 'image')
@@ -41,7 +50,7 @@ function App() {
               else return null
             })}
           </SimpleGrid>
-        }
+        )}
       </AppContainer>
     </ChakraProvider>
   )
