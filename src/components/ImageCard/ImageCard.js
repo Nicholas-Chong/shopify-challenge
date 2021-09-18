@@ -2,21 +2,20 @@ import { Box, Image } from '@chakra-ui/react'
 import { createContext, useContext, useState, useEffect } from 'react'
 import { DescriptionModal } from './DescriptionModal'
 import { LikeButton } from './LikeButton'
-import { AppContext } from '../../App'
+import App, { AppContext } from '../../App'
 import { searchForImage } from '../../utilities/index-db'
 
 export const ImageContext = createContext()
 
 export const ImageCard = ({ image }) => {
   const [indexDb] = useState(useContext(AppContext).db)
-  const [showOnlyLiked] = useState(useContext(AppContext).showOnlyLiked)
+  const showOnlyLiked = useContext(AppContext).showOnlyLiked
   const [isLiked, setIsLiked] = useState(false)
 
   useEffect(() => {
     searchForImage(indexDb, image.title).then((result) => {
       if (result) setIsLiked(true)
     })
-    console.log(showOnlyLiked)
   })
 
   return (
