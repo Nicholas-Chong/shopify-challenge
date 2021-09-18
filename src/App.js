@@ -12,27 +12,20 @@ function App() {
   const [indexDb, setIndexDb] = useState(null)
 
   useEffect(() => {
-    const runAsyncFunctions = async () => {
-      const db = await openDb()
-      setIndexDb(db)
+    openDb().then((result) => setIndexDb(result))
 
-      let tmp = null
+    let startDate = new Date()
+    startDate.setMonth(startDate.getMonth() - 3)
+    startDate = startDate.toLocaleDateString('fr-CA')
 
-      let startDate = new Date()
-      startDate.setMonth(startDate.getMonth() - 3)
-      startDate = startDate.toLocaleDateString('fr-CA')
-
-      await fetch(
-        `https://api.nasa.gov/planetary/apod?start_date=${startDate}&api_key=fusMDa3hRjdVjwuaweS6gsIjVDcmN7cmjsaj7nnX`
-      )
-        .then((response) => response.json())
-        .then((data) => (tmp = data))
-
-      setImagesData(tmp)
-      setImagesLoaded(true)
-    }
-
-    runAsyncFunctions()
+    fetch(
+      `https://api.nasa.gov/planetary/apod?start_date=${startDate}&api_key=fusMDa3hRjdVjwuaweS6gsIjVDcmN7cmjsaj7nnX`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setImagesData(data)
+        setImagesLoaded(true)
+      })
   }, [])
 
   return (
