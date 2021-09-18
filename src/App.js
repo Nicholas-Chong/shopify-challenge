@@ -16,8 +16,6 @@ function App() {
       const db = await openDb()
       setIndexDb(db)
 
-      console.log(indexDb)
-
       let tmp = null
 
       let startDate = new Date()
