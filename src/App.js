@@ -32,7 +32,7 @@ function App() {
 
   return (
     <ChakraProvider theme={theme}>
-      <AppContainer db={indexDb}>
+      <AppContainer value={{db: indexDb, showOnlyLiked: showOnlyLiked}}>
         <Heading mb={4}>ShopiSpace</Heading>
         {!imagesLoaded && <LoadingSpinner />}
         {imagesLoaded && (
