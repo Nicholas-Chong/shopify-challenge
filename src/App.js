@@ -43,7 +43,6 @@ function App() {
       >
         <AppContainer>
           <Heading mb={4}>ShopiSpace</Heading>
-          {showOnlyLiked && <p>show only liked</p>}
           {!imagesLoaded && <LoadingSpinner />}
           {imagesLoaded && (
             <SimpleGrid columns={[1, 2, 3, 4]} spacing={10}>
