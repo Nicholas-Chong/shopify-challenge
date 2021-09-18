@@ -15,25 +15,28 @@ function App() {
   const [indexDb, setIndexDb] = useState(null)
   const [showOnlyLiked, setShowOnlyLiked] = useState(false)
 
+  // Initial Load (Only runs once)
   useEffect(() => {
     openDb().then((result) => setIndexDb(result))
 
-    if (!imagesLoaded) {
-      let startDate = new Date()
-      startDate.setMonth(startDate.getMonth() - 3)
-      startDate = startDate.toLocaleDateString('fr-CA')
+    let startDate = new Date()
+    startDate.setMonth(startDate.getMonth() - 3)
+    startDate = startDate.toLocaleDateString('fr-CA')
 
-      fetch(
-        `https://api.nasa.gov/planetary/apod?start_date=${startDate}&api_key=fusMDa3hRjdVjwuaweS6gsIjVDcmN7cmjsaj7nnX`
-      )
-        .then((response) => response.json())
-        .then((data) => {
-          setImagesData(data)
-          setImagesLoaded(true)
-          loadInAnimation('.images')  
-        })
-    } else 
-      loadInAnimation('.images')
+    fetch(
+      `https://api.nasa.gov/planetary/apod?start_date=${startDate}&api_key=fusMDa3hRjdVjwuaweS6gsIjVDcmN7cmjsaj7nnX`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setImagesData(data)
+        setImagesLoaded(true)
+        loadInAnimation('.images')  
+      })
+  }, [])
+
+  // Runs each time showOnlyLiked is toggled
+  useEffect(() => {
+    loadInAnimation('.images')
   }, [showOnlyLiked])
 
   return (
