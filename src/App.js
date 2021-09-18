@@ -5,6 +5,7 @@ import { ImageCard } from './components/ImageCard'
 import { LoadingSpinner } from './components/LoadingSpinner'
 import { openDb } from './utilities/index-db'
 import { ShowLikedSwitch } from './components/ShowLikedSwitch'
+import { loadInAnimation } from './utilities/animation'
 
 export const AppContext = createContext()
 
@@ -17,19 +18,23 @@ function App() {
   useEffect(() => {
     openDb().then((result) => setIndexDb(result))
 
-    let startDate = new Date()
-    startDate.setMonth(startDate.getMonth() - 3)
-    startDate = startDate.toLocaleDateString('fr-CA')
+    if (!imagesLoaded) {
+      let startDate = new Date()
+      startDate.setMonth(startDate.getMonth() - 3)
+      startDate = startDate.toLocaleDateString('fr-CA')
 
-    fetch(
-      `https://api.nasa.gov/planetary/apod?start_date=${startDate}&api_key=fusMDa3hRjdVjwuaweS6gsIjVDcmN7cmjsaj7nnX`
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        setImagesData(data)
-        setImagesLoaded(true)
-      })
-  }, [])
+      fetch(
+        `https://api.nasa.gov/planetary/apod?start_date=${startDate}&api_key=fusMDa3hRjdVjwuaweS6gsIjVDcmN7cmjsaj7nnX`
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          setImagesData(data)
+          setImagesLoaded(true)
+          loadInAnimation('.images')  
+        })
+    } else 
+      loadInAnimation('.images')
+  }, [showOnlyLiked])
 
   return (
     <ChakraProvider theme={theme}>
@@ -44,13 +49,15 @@ function App() {
           <Heading mb={4}>ShopiSpace</Heading>
           {!imagesLoaded && <LoadingSpinner />}
           {imagesLoaded && (
-            <SimpleGrid columns={[1, 2, 3, 4]} spacing={10}>
-              {imagesData.map((element) => {
-                if (element.media_type === 'image')
-                  return <ImageCard image={element} />
-                else return null
-              })}
-            </SimpleGrid>
+            <div className='images'>
+              <SimpleGrid columns={[1, 2, 3, 4]} spacing={10}>
+                {imagesData.map((element) => {
+                  if (element.media_type === 'image')
+                    return <ImageCard image={element} />
+                  else return null
+                })}
+              </SimpleGrid>
+            </div>
           )}
           <ShowLikedSwitch />
         </AppContainer>
