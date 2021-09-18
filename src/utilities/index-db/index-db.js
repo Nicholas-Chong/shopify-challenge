@@ -30,6 +30,12 @@ export const addLikedImage = (db, image) => {
   }
 }
 
+export const deleteLikedImage = (db, image) => {
+  const transaction = db.transaction('likedImages', 'readwrite')
+  const likedImages = transaction.objectStore('likedImages')
+  likedImages.delete(image.title)
+}
+
 export const searchForImage = (db, imageTitle) => {
   const transaction = db.transaction('likedImages', 'readwrite')
   const likedImages = transaction.objectStore('likedImages')
