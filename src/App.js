@@ -4,10 +4,12 @@ import { ColorModeSwitcher } from './ColorModeSwitcher'
 import { AppContainer } from './components/Background'
 import { ImageCard } from './components/ImageCard'
 import { LoadingSpinner } from './components/LoadingSpinner'
+import { openDb, addLikedImage, searchForImage } from './utilities/index-db'
 
 function App() {
   const [imagesLoaded, setImagesLoaded] = useState(false)
   const [imagesData, setImagesData] = useState([])
+  const [indexDb] = useState(openDb())
 
   useEffect(async () => {
     let tmp = null
