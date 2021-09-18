@@ -21,7 +21,7 @@ export const addLikedImage = (db, image) => {
   const request = likedImages.add(image)
 
   request.onsuccess = () => {
-    console.log(`Added "${image.title}" to likedImages`, request.result)
+    console.log(`Added "${request.result}" to likedImages`)
   }
 
   request.onerror = () => {
@@ -32,21 +32,26 @@ export const addLikedImage = (db, image) => {
 export const deleteLikedImage = (db, image) => {
   const transaction = db.transaction('likedImages', 'readwrite')
   const likedImages = transaction.objectStore('likedImages')
-  likedImages.delete(image.title)
+
+  const request = likedImages.delete(image.title)
+
+  request.onsuccess = () => {
+    console.log(`Removed "${image.title}" from likedImages`)
+  }
+
+  request.onerror = () => {
+    console.log('Error', request.error)
+  }
 }
 
 export const searchForImage = (db, imageTitle) => {
-  const transaction = db.transaction('likedImages', 'readwrite')
-  const likedImages = transaction.objectStore('likedImages')
-  const imageTitleIndex = likedImages.index('imageTitle')
-
-  const request = imageTitleIndex.getAll(imageTitle)
-
-  request.onsuccess = () => {
-    if (request.result !== undefined) {
-      console.log('Found Image:', request.result)
-    } else {
-      console.log('No such books')
-    }
-  }
+  return new Promise((resolve, reject) => {
+    const transaction = db.transaction('likedImages', 'readwrite')
+    const likedImages = transaction.objectStore('likedImages')
+    
+    const request = likedImages.get(imageTitle)
+  
+    request.onsuccess = () => resolve(request.result)
+    request.onerror = () => reject(request.error)
+  })
 }
