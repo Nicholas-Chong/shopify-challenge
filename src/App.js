@@ -5,11 +5,13 @@ import { AppContainer } from './components/Background'
 import { ImageCard } from './components/ImageCard'
 import { LoadingSpinner } from './components/LoadingSpinner'
 import { openDb } from './utilities/index-db'
+import { ShowLikedSwitch } from './components/ShowLikedSwitch'
 
 function App() {
   const [imagesLoaded, setImagesLoaded] = useState(false)
   const [imagesData, setImagesData] = useState([])
   const [indexDb, setIndexDb] = useState(null)
+  const [showOnlyLiked, setShowOnlyLiked] = useState(false)
 
   useEffect(() => {
     openDb().then((result) => setIndexDb(result))
@@ -42,6 +44,7 @@ function App() {
             })}
           </SimpleGrid>
         )}
+        <ShowLikedSwitch onChange={setShowOnlyLiked}/>
       </AppContainer>
     </ChakraProvider>
   )
