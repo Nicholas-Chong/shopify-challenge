@@ -13,7 +13,7 @@ export const LoadingSpinner = () => (
   >
     <center>
       <Spinner/>
-      <p>This is some fun text...</p>
+      <p>Fun fact: I've been learning React for ~2 years!</p>
     </center>
   </Box>
 )
