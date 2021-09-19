@@ -73,7 +73,7 @@ function App() {
                   else return null
                 })}
               </SimpleGrid>
-              <LoadMoreButton />
+              {!showOnlyLiked && <LoadMoreButton />}
             </Box>
           )}
           <ShowLikedSwitch />
