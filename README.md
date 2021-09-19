@@ -24,8 +24,12 @@ When cards are loaded, the app checks to see if that card's image's name is in t
 
 The user can decide whether or not they would like to show only their liked images by using the slider at the bottom of the screen. Using the slider toggles the ```showOnlyLiked``` state. This state is passed down to the ```<ImageCard/>``` component via the top level ```AppContext```. Based on the ```showOnlyLiked``` state, ```<ImageCard/>``` decides the value of it's display property. 
 
+![](readmeImgs/showOnlyLiked.png)
+
 ### (3) Loading State 
 
 On the initial render, the ```imagesLoaded``` state is set to false. When the app is in this state, a loading spinner is shown. 
 
 The NASA API is called via fetch. Once the fetch promise is resolved, the ```imagesLoaded``` state is set to true, and the image cards are displayed. 
+
+![](readmeImgs/loadingState.png)
