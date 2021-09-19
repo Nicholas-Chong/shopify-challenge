@@ -1,68 +1,31 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Shopify Challenge 2021/2022
 
-## Available Scripts
+This repo contains my submission for the Spacetagram Shopify take home challenge. 
 
-In the project directory, you can run:
+## Key Features
 
-### `yarn start`
+1. User's liked images are saved if the user leaves or reloads the page
+2. Show only liked images
+3. Loading state while waiting for NASA API to return data
+4. Load more button (also with loading state)
+5. Animation on card load in
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Implementations
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+This section goes over the implementation of some key features at a high level.
 
-### `yarn test`
+### (1) Saved Likes
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Saved likes are accomplished using the IndexedDB functionality that is built in to modern browsers. When a user likes an image, the image json is saved to the IndexedDb, using the image title as the PK.
 
-### `yarn build`
+When cards are loaded, the app check to see if that card's image's name is in the IndexedDb. If the image title is found, the image is given a "liked" state.
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### (2) Show only Liked Images
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+The user can decide whether or not they would like to show only their liked images by using the slider at the bottom of the screen. Using the slider toggles the ```showOnlyLiked``` state. This state is passed down to the ```<ImageCard/>``` component via the top level ```AppContext```. Based on the ```showOnlyLiked``` state, ```<ImageCard/>``` decides the value of it's display property. 
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### (3) Loading State 
 
-### `yarn eject`
+On the initial render, the ```imagesLoaded``` state is set to false. When the app is in this state, a loading spinner is shown. 
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+The NASA API is called via fetch. Once the fetch promise is resolved, the ```imagesLoaded``` state is set to true, and the image cards are displayed. 
