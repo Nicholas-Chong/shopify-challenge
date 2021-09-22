@@ -10,6 +10,8 @@ export const LoadMoreButton = () => {
   const [isLoading, setIsLoading] = useState(false)
 
   const getNewImages = () => {
+    if (isLoading) return
+
     setIsLoading(true)
 
     const endDateStr = new Date(
