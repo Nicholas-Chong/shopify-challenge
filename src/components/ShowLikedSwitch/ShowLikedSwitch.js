@@ -18,6 +18,7 @@ export const ShowLikedSwitch = () => {
           justifyContent='space-between'
           bg='#E2E8F0'
           borderRadius='lg'
+          boxShadow='0 3px 10px rgb(0 0 0 / 0.2)'
         >
           <p>Show only liked images</p>
           <Switch
